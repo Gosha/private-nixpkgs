@@ -1,0 +1,15 @@
+# { pkgs ? import (fetchTarball https://github.com/NixOS/nixpkgs/archive/20.03.tar.gz) {};
+{ pkgs ? import <nixpkgs> { } }:
+let
+  fetchFromGitHub = pkgs.fetchFromGitHub;
+  buildPythonApplication = pkgs.python3Packages.buildPythonApplication;
+  stdenv = pkgs.stdenv;
+in buildPythonApplication {
+  name = "pyanidb";
+  src = fetchFromGitHub {
+    owner = "xyzz";
+    repo = "pyanidb";
+    rev = "b9520212aa037da5344117779817337a1ad918f0";
+    sha256 = "17inn816llqwp6qhm3d1m50v0xhalvq9vdnd8i76kjzz0ds6r8sm";
+  };
+}
