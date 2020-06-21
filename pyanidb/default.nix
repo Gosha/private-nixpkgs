@@ -18,4 +18,11 @@ in buildPythonApplication {
     rev = "b9520212aa037da5344117779817337a1ad918f0";
     sha256 = "17inn816llqwp6qhm3d1m50v0xhalvq9vdnd8i76kjzz0ds6r8sm";
   };
+  meta = with stdenv.lib; {
+    homepage = "https://github.com/xyzz/pyanidb";
+    description =
+      "PyAniDB is a client for AniDB's UDP API. (http://anidb.net/)";
+    license = licenses.gpl2;
+    maintainers = [ ];
+  };
 }
