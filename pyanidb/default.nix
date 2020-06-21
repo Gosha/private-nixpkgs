@@ -7,6 +7,11 @@ let
 in buildPythonApplication {
   pname = "pyanidb";
   version = "0.2.1";
+  patches = [ ./0001-no-raise-stop-iteration.patch ];
+  postPatch = ''
+    # Upgrade some constructs to python3
+    2to3 -w .
+  '';
   src = fetchFromGitHub {
     owner = "xyzz";
     repo = "pyanidb";

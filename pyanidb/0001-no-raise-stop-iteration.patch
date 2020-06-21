@@ -1,0 +1,10 @@
+diff --git a/pyanidb/hash.py b/pyanidb/hash.py
+index 1df7e08..bbfeba8 100644
+--- a/pyanidb/hash.py
++++ b/pyanidb/hash.py
+@@ -128,4 +128,4 @@ def hash_files(files, cache = False, algorithms = ('ed2k',), num_threads = 1):
+ 			yield hashlist.pop(0)
+ 		except IndexError:
+ 			time.sleep(0.1)
+-	raise StopIteration
++	return
