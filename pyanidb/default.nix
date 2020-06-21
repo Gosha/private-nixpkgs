@@ -5,7 +5,8 @@ let
   buildPythonApplication = pkgs.python3Packages.buildPythonApplication;
   stdenv = pkgs.stdenv;
 in buildPythonApplication {
-  name = "pyanidb";
+  pname = "pyanidb";
+  version = "0.2.1";
   src = fetchFromGitHub {
     owner = "xyzz";
     repo = "pyanidb";
