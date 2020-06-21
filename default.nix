@@ -1,1 +1,4 @@
-{ pkgs ? import <nixpkgs> { } }: { pyanidb = pkgs.callPackage ./pyanidb { }; }
+{ pkgs ? import <nixpkgs> { } }: {
+  #
+  pyanidb = pkgs.callPackage ./pyanidb { };
+}
