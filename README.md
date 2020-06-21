@@ -3,5 +3,5 @@
 Install `$PACKAGE`:
 
 ```bash
-nix-env -iA $PACKAGE -f https://github.com/Gosha/private-nixpkgs/tarball/master
+nix-env -f https://github.com/Gosha/private-nixpkgs/tarball/master -iA $PACKAGE
 ```
