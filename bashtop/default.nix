@@ -5,6 +5,45 @@
 let
   version = "0.9.16";
   python = pkgs.python3.withPackages (ps: [ ps.psutil ]);
+  _replacements = {
+    curl = pkgs.curl;
+    ps = pkgs.procps;
+    nproc = pkgs.coreutils;
+    date = pkgs.coreutils;
+    uname = pkgs.coreutils;
+    mktemp = pkgs.coreutils;
+    lscpu = pkgs.coreutils;
+    uptime = pkgs.coreutils;
+    echo = pkgs.coreutils;
+    locale = pkgs.locale;
+    dd = pkgs.coreutils;
+    df = pkgs.coreutils;
+    stty = pkgs.coreutils;
+    tail = pkgs.coreutils;
+    realpath = pkgs.coreutils;
+    wc = pkgs.coreutils;
+    rm = pkgs.coreutils;
+    mv = pkgs.coreutils;
+    sleep = pkgs.coreutils;
+    stdbuf = pkgs.coreutils;
+    mkfifo = pkgs.coreutils;
+    kill = pkgs.coreutils;
+    sed = pkgs.gnused;
+  } // pkgs.lib.optionalAttrs stdenv.isLinux {
+    sensors = pkgs.lm_sensors;
+    ip = pkgs.iproute;
+    iostat = pkgs.sysstat;
+  };
+  toSedEval = name: value:
+    ''sed -i "s@\$(${name}@\$(${value}/bin/${name}@" bashtop'';
+  toSedNamedPipe = name: value:
+    ''sed -i "s@<(${name}@<(${value}/bin/${name}@" bashtop'';
+  toBashKeyValue = name: value: ''[\"${name}\"]=\"${value}/bin/${name}\"'';
+  nix_tools =
+    builtins.toString (pkgs.lib.mapAttrsToList toBashKeyValue _replacements);
+  replacements = builtins.concatStringsSep "\n"
+    (pkgs.lib.mapAttrsToList toSedNamedPipe _replacements
+      ++ pkgs.lib.mapAttrsToList toSedEval _replacements);
 
 in stdenv.mkDerivation {
   name = "bashtop-${version}";
@@ -24,27 +63,13 @@ in stdenv.mkDerivation {
   # Replace the obvious implicit dependencies
   # $ egrep -o '\$\([a-z]+' result/bin/bashtop | uniq
   # $ egrep -o '<\([a-z]+' result/bin/bashtop | uniq
-
-  # That huge lines that creates a dictionary of replacement could probably be expressed in some better way..
   postBuild = ''
     sed -i 's@#\* Set correct names for GNU tools depending on OS@declare -A nix_tools@' bashtop
-    sed -i "s@if \[\[ \$system != \"Linux\" \]\]; then tool_prefix=\"g\"; fi@nix_tools=( [\"dd\"]=\"${pkgs.coreutils}/bin/dd\" [\"df\"]=\"${pkgs.coreutils}/bin/df\" [\"stty\"]=\"${pkgs.coreutils}/bin/stty\" [\"tail\"]=\"${pkgs.coreutils}/bin/tail\" [\"realpath\"]=\"${pkgs.coreutils}/bin/realpath\" [\"wc\"]=\"${pkgs.coreutils}/bin/wc\" [\"rm\"]=\"${pkgs.coreutils}/bin/rm\" [\"mv\"]=\"${pkgs.coreutils}/bin/mv\" [\"sleep\"]=\"${pkgs.coreutils}/bin/sleep\" [\"stdbuf\"]=\"${pkgs.coreutils}/bin/stdbuf\" [\"mkfifo\"]=\"${pkgs.coreutils}/bin/mkfifo\" [\"date\"]=\"${pkgs.coreutils}/bin/date\" [\"kill\"]=\"${pkgs.coreutils}/bin/kill\" [\"sed\"]=\"${pkgs.gnused}/bin/sed\" )@" bashtop
+    sed -i "s@if \[\[ \$system != \"Linux\" \]\]; then tool_prefix=\"g\"; fi@nix_tools=( ${nix_tools} )@" bashtop
     sed -i 's@set_tool="''${tool_prefix}''${tool}"@set_tool="''${nix_tools[$tool]}"@' bashtop
-    sed -i "s@\$(curl@\$(${pkgs.curl}/bin/curl@" bashtop
-    sed -i "s@\$(ps@\$(${pkgs.coreutils}/bin/ps@" bashtop
-    sed -i "s@\$(nproc@\$(${pkgs.coreutils}/bin/nproc@" bashtop
-    sed -i "s@\$(date@\$(${pkgs.coreutils}/bin/date@" bashtop
-    sed -i "s@\$(uname@\$(${pkgs.coreutils}/bin/uname@" bashtop
-    sed -i "s@\$(mktemp@\$(${pkgs.coreutils}/bin/mktemp@" bashtop
-    sed -i "s@\$(lscpu@\$(${pkgs.coreutils}/bin/lscpu@" bashtop
 
-    sed -i "s@<(uptime@<(${pkgs.coreutils}/bin/uptime@" bashtop
-    sed -i "s@<(sensors@<(${pkgs.lm_sensors}/bin/sensors@" bashtop
-    sed -i "s@<(iostat@<(${pkgs.sysstat}/bin/mktemp@" bashtop
-    sed -i "s@<(echo@<(${pkgs.coreutils}/bin/echo@" bashtop
+    ${replacements}
 
-    sed -i "s@\$(ip@\$(${pkgs.iproute}/bin/ip@" bashtop
-    sed -i "s@\$(locale@\$(${pkgs.locale}/bin/locale@" bashtop
     sed -i "s@python3 @${python}/bin/python3 @" bashtop
   '';
 }
