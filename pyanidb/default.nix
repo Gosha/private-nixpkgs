@@ -2,9 +2,9 @@
 { pkgs ? import <nixpkgs> { } }:
 let
   fetchFromGitHub = pkgs.fetchFromGitHub;
-  buildPythonApplication = pkgs.python3Packages.buildPythonApplication;
+  buildPythonPackage = pkgs.python3Packages.buildPythonPackage;
   stdenv = pkgs.stdenv;
-in buildPythonApplication {
+in buildPythonPackage {
   pname = "pyanidb";
   version = "0.2.1";
   patches = [ ./0001-no-raise-stop-iteration.patch ];
