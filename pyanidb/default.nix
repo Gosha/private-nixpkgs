@@ -1,10 +1,8 @@
 # { pkgs ? import (fetchTarball https://github.com/NixOS/nixpkgs/archive/20.03.tar.gz) {};
-{ pkgs ? import <nixpkgs> { } }:
-let
-  fetchFromGitHub = pkgs.fetchFromGitHub;
-  buildPythonPackage = pkgs.python3Packages.buildPythonPackage;
-  stdenv = pkgs.stdenv;
-in buildPythonPackage {
+{ pkgs ? import <nixpkgs> { }
+, buildPythonPackage ? pkgs.python3Packages.buildPythonPackage
+, fetchFromGitHub ? pkgs.fetchFromGitHub, stdenv ? pkgs.stdenv }:
+buildPythonPackage {
   pname = "pyanidb";
   version = "0.2.1";
   patches = [ ./0001-no-raise-stop-iteration.patch ];
