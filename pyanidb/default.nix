@@ -1,6 +1,6 @@
 # { pkgs ? import (fetchTarball https://github.com/NixOS/nixpkgs/archive/20.03.tar.gz) {};
-{ pkgs ? import <nixpkgs> { }, pythonPackages ? pkgs.python3Packages
-, buildPythonPackage ? pythonPackages.buildPythonPackage
+{ pkgs ? import <nixpkgs> { }, python3Packages ? pkgs.python3Packages
+, buildPythonPackage ? python3Packages.buildPythonPackage
 , fetchFromGitHub ? pkgs.fetchFromGitHub, stdenv ? pkgs.stdenv
 
   # Flags
@@ -22,7 +22,7 @@ buildPythonPackage {
     sha256 = "17inn816llqwp6qhm3d1m50v0xhalvq9vdnd8i76kjzz0ds6r8sm";
   };
   propagatedBuildInputs = [ ]
-    ++ pkgs.lib.optional withXattr pythonPackages.xattr;
+    ++ pkgs.lib.optional withXattr python3Packages.xattr;
   meta = with stdenv.lib; {
     homepage = "https://github.com/xyzz/pyanidb";
     description =
