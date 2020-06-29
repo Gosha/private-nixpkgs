@@ -9,16 +9,15 @@
 }:
 buildPythonPackage {
   pname = "pyanidb";
-  version = "0.2.1";
-  patches = [ ./0001-no-raise-stop-iteration.patch ];
+  version = "0.2.2-a1";
   postPatch = ''
     # Upgrade some constructs to python3
     2to3 -w .
   '';
   src = fetchFromGitHub {
-    owner = "xyzz";
+    owner = "Gosha";
     repo = "pyanidb";
-    rev = "b9520212aa037da5344117779817337a1ad918f0";
+    rev = "8e5a789aeac2d5ff1276e690420525f7b1ad34af";
     sha256 = "17inn816llqwp6qhm3d1m50v0xhalvq9vdnd8i76kjzz0ds6r8sm";
   };
   propagatedBuildInputs = [ ]
