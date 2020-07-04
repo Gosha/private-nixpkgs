@@ -18,7 +18,7 @@ buildPythonPackage {
     owner = "Gosha";
     repo = "pyanidb";
     rev = "8e5a789aeac2d5ff1276e690420525f7b1ad34af";
-    sha256 = "17inn816llqwp6qhm3d1m50v0xhalvq9vdnd8i76kjzz0ds6r8sm";
+    sha256 = "0fyrb2b0v1aj8znpzkpzrwxk3qq4hl1754853llzqz1i8z192cgm";
   };
   propagatedBuildInputs = [ ]
     ++ pkgs.lib.optional withXattr python3Packages.xattr;
