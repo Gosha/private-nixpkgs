@@ -22,7 +22,7 @@ buildPythonPackage {
   };
   propagatedBuildInputs = [ ]
     ++ pkgs.lib.optional withXattr python3Packages.xattr;
-  meta = with stdenv.lib; {
+  meta = with pkgs.lib; {
     homepage = "https://github.com/xyzz/pyanidb";
     description =
       "PyAniDB is a client for AniDB's UDP API. (http://anidb.net/)";
