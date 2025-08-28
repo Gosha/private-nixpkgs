@@ -9,7 +9,7 @@
 }:
 buildPythonPackage {
   pname = "pyanidb";
-  version = "0.2.2-a2";
+  version = "0.2.2-a3";
   postPatch = ''
     # Upgrade some constructs to python3
     2to3 -w .
@@ -17,10 +17,10 @@ buildPythonPackage {
   src = fetchFromGitHub {
     owner = "Gosha";
     repo = "pyanidb";
-    rev = "dcf129c4b97f01f198a5cab37e0e8c880c330562";
-    sha256 = "15wgbz2d2328lsqw4im7dhl42zpzf5wd88dyds02nzzw73km09l0";
+    rev = "81eefb1947ddcd620eab08dee9930787e844120d";
+    hash = "sha256-1KWnY/LkO5vexndUbm8u7R2+4VZ+3MJkkITbHxFgPAY=";
   };
-  propagatedBuildInputs = [ ]
+  propagatedBuildInputs = [ python3Packages.pycryptodome ]
     ++ pkgs.lib.optional withXattr python3Packages.xattr;
   meta = with pkgs.lib; {
     homepage = "https://github.com/xyzz/pyanidb";
