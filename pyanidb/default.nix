@@ -3,6 +3,7 @@
 , buildPythonPackage ? python3Packages.buildPythonPackage
 , fetchFromGitHub ? pkgs.fetchFromGitHub
 , pycryptodome ? python3Packages.pycryptodome, xattr ? python3Packages.xattr
+, setuptools ? python3Packages.setuptools, wheel ? python3Packages.wheel
 , withXattr ? true }:
 
 buildPythonPackage {
@@ -16,7 +17,9 @@ buildPythonPackage {
     hash = "sha256-1KWnY/LkO5vexndUbm8u7R2+4VZ+3MJkkITbHxFgPAY=";
   };
 
-  format = "setuptools";
+  format = "pyproject";
+
+  nativeBuildInputs = [ setuptools wheel ];
 
   propagatedBuildInputs = [ pycryptodome ] ++ lib.optional withXattr xattr;
 
@@ -24,6 +27,7 @@ buildPythonPackage {
     homepage = "https://github.com/Gosha/pyanidb";
     description =
       "PyAniDB is a client for AniDB's UDP API. (http://anidb.net/)";
+    mainProgram = "anidb";
     license = licenses.gpl2;
     maintainers = [ ];
   };
