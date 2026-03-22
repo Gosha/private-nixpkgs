@@ -1,6 +1,9 @@
-{ pkgs ? import <nixpkgs> { }, python3Packages ? pkgs.python3Packages
+{ pkgs ? import <nixpkgs> { }, lib ? pkgs.lib
+, python3Packages ? pkgs.python3Packages
 , buildPythonPackage ? python3Packages.buildPythonPackage
-, fetchFromGitHub ? pkgs.fetchFromGitHub, withXattr ? true }:
+, fetchFromGitHub ? pkgs.fetchFromGitHub
+, pycryptodome ? python3Packages.pycryptodome, xattr ? python3Packages.xattr
+, withXattr ? true }:
 
 buildPythonPackage {
   pname = "pyanidb";
@@ -15,10 +18,9 @@ buildPythonPackage {
 
   format = "setuptools";
 
-  propagatedBuildInputs = [ python3Packages.pycryptodome ]
-    ++ pkgs.lib.optional withXattr python3Packages.xattr;
+  propagatedBuildInputs = [ pycryptodome ] ++ lib.optional withXattr xattr;
 
-  meta = with pkgs.lib; {
+  meta = with lib; {
     homepage = "https://github.com/Gosha/pyanidb";
     description =
       "PyAniDB is a client for AniDB's UDP API. (http://anidb.net/)";
