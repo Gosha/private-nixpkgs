@@ -13,4 +13,5 @@ in {
   spogo = pkgs.callPackage ./spogo { };
   oracle = pkgs.callPackage ./oracle { };
   nano-pdf = pkgs.callPackage ./nano-pdf { };
+  wolt-cli = pkgs.callPackage ./wolt-cli { };
 }
