@@ -3,11 +3,11 @@
 
 buildNpmPackage {
   pname = "oracle";
-  version = "0.16.1";
+  version = "0.21.1";
 
   src = fetchurl {
-    url = "https://registry.npmjs.org/@steipete/oracle/-/oracle-0.16.1.tgz";
-    hash = "sha256-falNkB7ti8iWUvH3xpQxl9iEI1drWdnsgc2fhRg+l4Y=";
+    url = "https://registry.npmjs.org/@steipete/oracle/-/oracle-0.21.1.tgz";
+    hash = "sha256-Y8J3lLyz2gzjFpy2nDVlgXHrojtckmuFt5FhAaHgLQ0=";
   };
 
   # The published tarball ships prebuilt dist/ output but no lockfile, so a
@@ -18,9 +18,9 @@ buildNpmPackage {
     cp ${./package-lock.json} package-lock.json
   '';
 
-  npmDepsHash = "sha256-Qx2kkYhOAofw7GXl4Kti+/DEPW0yegQmQsrj0NhkwWo=";
+  npmDepsHash = "sha256-DEVZjPZYqgehOxSM0QTGgPDOT176P+O4srgEx/mFpqE=";
 
-  npmFlags = [ "--ignore-scripts" ];
+  npmFlags = [ "--ignore-scripts" "--legacy-peer-deps" ];
 
   dontNpmBuild = true;
 
