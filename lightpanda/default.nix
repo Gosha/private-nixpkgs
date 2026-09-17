@@ -1,15 +1,17 @@
-{ lib, stdenv, fetchurl, autoPatchelfHook, glibc }:
+{ pkgs ? import <nixpkgs> { }, lib ? pkgs.lib, stdenv ? pkgs.stdenv
+, fetchurl ? pkgs.fetchurl, autoPatchelfHook ? pkgs.autoPatchelfHook
+, glibc ? pkgs.glibc }:
 
 let
-  version = "0.2.7";
+  version = "0.4.1";
   binaries = {
     "x86_64-linux" = {
       url = "https://github.com/lightpanda-io/browser/releases/download/${version}/lightpanda-x86_64-linux";
-      hash = "sha256-cGrMzVDnChi4IG/Js8Fvy4V0uYS21prgWppCYv7KvxI=";
+      hash = "sha256-HUCAHnLAvGGyy9PzVivPxG3nt54FaPM/aGtk8uWHYQo=";
     };
     "aarch64-linux" = {
       url = "https://github.com/lightpanda-io/browser/releases/download/${version}/lightpanda-aarch64-linux";
-      hash = "sha256-C0LCBkVxnjzfYCKUrIH7zcEMi7NhBL4IbPMoTax4gAs=";
+      hash = "sha256-Zkd1x/WracwxiZVMf5NF4lwWfLTazgFhc+Yp+aXoLEI=";
     };
   };
   bin = binaries.${stdenv.hostPlatform.system} or (throw "lightpanda: unsupported system ${stdenv.hostPlatform.system}");
