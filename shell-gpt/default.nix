@@ -1,22 +1,23 @@
-{ pkgs ? import (fetchTarball
-  "https://github.com/NixOS/nixpkgs/archive/d586805a5c24e643b713306dfd773a6a8f97aff6.tar.gz")
-  { }, python3Packages ? pkgs.python3Packages
+{ pkgs ? import <nixpkgs> { }, python3Packages ? pkgs.python3Packages
 , buildPythonPackage ? python3Packages.buildPythonPackage
 , fetchPypi ? pkgs.python3Packages.fetchPypi }:
 buildPythonPackage rec {
   pname = "shell-gpt";
-  version = "0.7.3";
+  version = "1.5.1";
+  pyproject = true;
   src = fetchPypi {
     inherit version;
     pname = "shell_gpt";
-    sha256 = "sha256:1wmnjq4mimw7ak8jav1h1dcjfi3wl9xc12b2ygxlrw91vcp36bwm";
+    sha256 = "1c528f960b1c515c882eec351ba3ac78ba6f306cece9cbe554d3ad350c8b5bfe";
   };
+  build-system = [ python3Packages.hatchling ];
+  pythonRelaxDeps = [ "rich" ];
   doCheck = false; # Tests requires require API access
   propagatedBuildInputs = with python3Packages; [
     typer
-    requests
+    openai
+    prompt-toolkit
     rich
-    click
     distro
   ];
   meta = with pkgs.lib; {
