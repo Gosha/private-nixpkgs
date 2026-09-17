@@ -1,24 +1,18 @@
 { pkgs ? import <nixpkgs> { }, stdenv ? pkgs.stdenv
 , fetchurl ? builtins.fetchurl }:
-let version = "0.4.3";
+let version = "0.4.4";
 
 in stdenv.mkDerivation {
   name = "slurm-netstat-${version}";
   src = fetchurl {
     url =
       "https://github.com/mattthias/slurm/archive/refs/tags/upstream/${version}.tar.gz";
-    sha256 = "1b53sckvg1j8510gi4bc48q61191jcc1nvhp5k8f2ywj2p9c0q5r";
+    sha256 = "00mcz49fwvb4x7warrpri6hj5lxr488wvi9j706wr1kgl6d6r11g";
   };
   meta = {
     homepage = "https://github.com/mattthias/slurm";
     description = "yet another network load monitor";
   };
-  buildInputs = with pkgs; [ ncurses cmake ];
-  buildPhase = ''
-    mkdir _build
-    cd _build
-    cmake ..
-    cd ..
-    make
-  '';
+  nativeBuildInputs = with pkgs; [ meson ninja pkg-config ];
+  buildInputs = with pkgs; [ ncurses ];
 }
