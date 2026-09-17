@@ -1,20 +1,27 @@
 { pkgs ? import <nixpkgs> { }, lib ? pkgs.lib
 , buildGoModule ? pkgs.buildGoModule, fetchFromGitHub ? pkgs.fetchFromGitHub }:
 
-buildGoModule {
+buildGoModule rec {
   pname = "songsee";
-  version = "0.1.1";
+  version = "0.1.2";
 
   src = fetchFromGitHub {
     owner = "openclaw";
     repo = "songsee";
-    rev = "v0.1.1";
-    hash = "sha256-PfyBqa4oiKBXAD3JGdLr7iaGk327YPUvcBF8B7+tfU4=";
+    rev = "v0.1.2";
+    hash = "sha256-dETvxFqeIyRTqAvgpunlAI3W+U0JpiR3twxXsURzGQc=";
   };
 
   subPackages = [ "cmd/songsee" ];
 
-  vendorHash = "sha256-KEjVrjrIQzK3sjsDjLA9xQpny/RYi6q/b4pdJGrCk6w=";
+  ldflags = [ "-X main.version=${version}" ];
+
+  postPatch = ''
+    substituteInPlace cmd/songsee/main_test.go internal/audio/ffmpeg_test.go \
+      --replace-fail /bin/sleep sleep
+  '';
+
+  vendorHash = "sha256-81O9/82wSxDoFShRuGjp4ygtHE+RSvqEBYnWR0F/pl4=";
 
   meta = with lib; {
     homepage = "https://github.com/openclaw/songsee";
