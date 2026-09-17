@@ -1,14 +1,17 @@
-{ pkgs ? import <nixpkgs> { }, lib ? pkgs.lib, stdenv ? pkgs.stdenv
-, fetchurl ? pkgs.fetchurl }:
+{
+  pkgs ? import <nixpkgs> { },
+  lib ? pkgs.lib,
+  stdenv ? pkgs.stdenv,
+  fetchurl ? pkgs.fetchurl,
+}:
 
 stdenv.mkDerivation {
   pname = "spogo";
-  version = "0.10.3";
+  version = "0.13.0";
 
   src = fetchurl {
-    url =
-      "https://github.com/openclaw/spogo/releases/download/v0.10.3/spogo_0.10.3_spogo_linux_amd64_v1.tar.gz";
-    sha256 = "b4145fb3ee047c4bf756056daae984715a51b0674fb7d012387060f1ba2777a6";
+    url = "https://github.com/openclaw/spogo/releases/download/v0.13.0/spogo_0.13.0_linux_amd64.tar.gz";
+    sha256 = "sha256-kU711EW3CPnC01fSNF7WIlpUcmN/EAsQw22f4/7aeig=";
   };
 
   sourceRoot = ".";
