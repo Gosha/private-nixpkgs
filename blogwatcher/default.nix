@@ -3,13 +3,13 @@
 
 buildGoModule {
   pname = "blogwatcher";
-  version = "0.0.3";
+  version = "0.0.4";
 
   src = fetchFromGitHub {
     owner = "Hyaxia";
     repo = "blogwatcher";
-    rev = "v0.0.3";
-    hash = "sha256-Zd3Pqv2gCB6EwSR5uh88aHEXtI49mmXSbKuVDf2vAGA=";
+    rev = "v0.0.4";
+    hash = "sha256-Wng43S7B12HO1HIACpUqORL9bUtpxtS4qGa+0i87IXg=";
   };
 
   subPackages = [ "cmd/blogwatcher" ];
